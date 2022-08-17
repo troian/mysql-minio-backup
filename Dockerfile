@@ -1,15 +1,16 @@
 # Fetch the mc command line client
 FROM alpine:3.16.2 
-RUN apk update && apk add ca-certificates wget && update-ca-certificates
+RUN mkdir -p /etc/ssl/certs/ && apk update && apk add ca-certificates wget && update-ca-certificates
 RUN wget -O /tmp/mc https://dl.minio.io/client/mc/release/linux-amd64/mc
 RUN chmod +x /tmp/mc
 
 # Then build our backup image
-FROM mysql:8.0.30
-LABEL maintainer="Benjamin Pannell <admin@sierrasoftworks.com>"
+FROM mariadb
+LABEL maintainer="Artur Troian <troian.ap@gmail.com>"
+LABEL "org.opencontainers.image.source"="https://github.com/troian/mysql-minio-backup"
 
 # Install the latest ca-certificates package to resolve Lets Encrypt auth issues
-RUN apt-get update && apt-get install ca-certificates
+RUN apt update && apt install ca-certificates
 
 COPY --from=0 /tmp/mc /usr/bin/mc
 
