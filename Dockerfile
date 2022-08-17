@@ -1,11 +1,11 @@
 # Fetch the mc command line client
-FROM alpine:3.16.0
+FROM alpine:3.16.2 
 RUN apk update && apk add ca-certificates wget && update-ca-certificates
 RUN wget -O /tmp/mc https://dl.minio.io/client/mc/release/linux-amd64/mc
 RUN chmod +x /tmp/mc
 
 # Then build our backup image
-FROM mysql:8.0.29
+FROM mysql:8.0.30
 LABEL maintainer="Benjamin Pannell <admin@sierrasoftworks.com>"
 
 # Install the latest ca-certificates package to resolve Lets Encrypt auth issues
