@@ -1,24 +1,14 @@
 name: Docker
+defaults:
+  run:
+    shell: bash
+
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
-env:
-  IMAGE: minback/mysql
+    tags:
+      - v*
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Build Dockerfile
-        run: docker build . --file Dockerfile
-          
   push:
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
